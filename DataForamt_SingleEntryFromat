@@ -1,0 +1,19 @@
+#A Publication data <string>
+#B Cell line  <string>
+#C Radiosensitizer type:NPmaterial, size, coating, aux <sting, float, string, string> 
+#D Radiation type: particle type, energy spectrum <string, string>
+#E Number of fractions <int>
+#F_Nfr  Time of NP injection / time of irradiation / time of assay <int string(dd:mm:yн//hh:mm), string(...), string(...)>  
+#G Comments <string>
+#H_i Table with survival fraction: bin center, bin content, uncertainty  <float, float, float>  
+#H_max -//-
+
+
+Comments:
+1. We  need to standardize NP material and counting denotions
+2 Radiation types: p, gamma, e,  c12, etc
+  Energy Spectrum : BP  (irradiotn in the proximity of Bregg peak (for heavy charged paricles))
+                    SOBP (irradition in the region of spread out Bredd peak)  
+                    BPO ( outside/before breag peak reggion)   
+                    140kV, 6MV, and so on (for gamma sources), // we may need even more coarse classification like  just "kV" or "MV"
+                    Co60 and so on for the source type
