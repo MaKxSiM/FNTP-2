@@ -5,7 +5,7 @@
 #D Radiation type: particle type, energy spectrum <string, string>
 #E Number of fractions <int>
 #F_Nfr  Time of NP injection / time of irradiation / time of assay <int string(dd:mm:yн//hh:mm), string(...), string(...)>  
-#G Concentration: value, units <floa, string>
+#G Concentration: value, units <float, string>
 #H_i Table with survival fraction: bin center, bin content, uncertainty  <float, float, float>  
 #H_max -//-
 
