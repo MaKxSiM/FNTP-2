@@ -39,9 +39,8 @@
 
   std::ifstream inputFile("/home/maxim/Programs/MedPhysProjects/FNTP-2/Init/FNTP-2/Data/LaB6_EMT6P_Editted.txt");
     if (!inputFile.is_open()) {
-      cerr << "Error: Could not open the file with neutron energy & angle distribution!" << endl;
+      cerr << "Error: Could not open the file!" << endl;
     }
-
 
     string line;
     bool fDataClonAssay =false;
@@ -52,7 +51,6 @@
         while (ss_ >> item_) {
                Row_.push_back(item_);
         }
-
 
         if(fDataClonAssay){
             DataPointTemplate DataPoint_;
@@ -117,9 +115,7 @@ TCanvas* c1 = new TCanvas("c1", "c1", 960, 720);
 
 
 // 1D slice at fixed concentration with  LQ fit
-
 TCanvas* c2 = new TCanvas("c2", "c2", 960, 720);
-
 
 int CS = 1; //Concentrtion  sclice, numbering sterts from 1. Dev: It should be taken from the file with paprameters in future devs.
 
