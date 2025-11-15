@@ -2,7 +2,7 @@
 DOI: 10.1016/j.mtnano.2024.100508
 
 #A1 Comments <string>
-Clonogenic assay, the hydrodynamic size of NPs after incubation with PBS for 15 minutes are shown.
+Clonogenic assay, the hydrodynamic size of NPs after incubation with PBS for 15 minutes is shown.
 
 #B Cell line  <string>
 EMT6/P
