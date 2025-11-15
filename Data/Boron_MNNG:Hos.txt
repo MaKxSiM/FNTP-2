@@ -1,0 +1,33 @@
+#A Publication data <string>
+DOI: 10.3390/nano13152167
+
+#A1 Comments <string>
+Clonogenic assay, the hydrodynamic size of NPs after incubation with PBS for 5 minutes are shown. The cells preserved 44.7 and 59.3 µg/mL of boron after incubation with 80 and 100 ppm of B NPs, respectively.
+
+#B Cell line  <string>
+MNNG/Hos
+
+#C Radiosensitizer type: NP material, size, coating, aux <sting, float, string, string>
+B 97 silane-PEG(COOH) NA
+
+#D Radiation type: particle type, energy spectrum <string, string>
+p BP
+
+#E Number of fractions <int>
+1
+
+#F_Nfr  Time of NP injection / time of irradiation / time of assay <int string(dd:mm:yн//hh:mm), string(...), string(...)>
+NA NA NA
+
+#G Table with survival fraction. Concentration: value, units <float, string>; bin center (Gy), bin content (%), uncertainty (%)  <float, float, float>
+  0 µg/mL 0  100   10.8
+  0 µg/mL 3  46    6.8
+  0 µg/mL 5  22.8  2.5
+
+ 80 µg/mL 0  79.6  14.8
+ 80 µg/mL 3  23.8  4
+ 80 µg/mL 5  16.7  2.2
+ 
+100 µg/mL 0  91    11.1
+100 µg/mL 3  19.4  2.8
+100 µg/mL 5  13.3  2.8
