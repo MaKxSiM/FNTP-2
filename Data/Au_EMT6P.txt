@@ -2,7 +2,7 @@
 DOI: 10.31857/S2686738924030104
 
 #A1 Comments <string>
-Clonogenic assay, the  size of the initial NPs (SEM) are shown.
+Clonogenic assay, the size of the initial NPs (SEM) is shown.
 
 #B Cell line  <string>
 EMT6/P
