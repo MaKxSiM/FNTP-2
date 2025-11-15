@@ -1,0 +1,34 @@
+#A Publication data <string>
+Project Report 2023
+
+#A1 Comments <string>
+Clonogenic assay, the hydrodynamic size of NPs in water is shown.
+
+#B Cell line  <string>
+SK-OV-3
+
+#C Radiosensitizer type: NP material, size, coating, aux <sting, float, string, string>
+Au 23 SH-PEG-NH2 NA
+
+#D Radiation type: particle type, energy spectrum <string, string>
+p SOBP
+
+#E Number of fractions <int>
+1
+
+#F_Nfr  Time of NP injection / time of irradiation / time of assay <int string(dd:mm:yн//hh:mm), string(...), string(...)>
+NA NA NA
+
+#G Table with survival fraction. Concentration: value, units <float, string>; bin center (Gy), bin content (%), uncertainty (%)  <float, float, float>
+  0 µg/mL 0   100    6
+  0 µg/mL 2   30.1   7
+  0 µg/mL 4   3.7    2.3
+ 10 µg/mL 0   83.3   4.2
+ 10 µg/mL 2   61.6   7.4
+ 10 µg/mL 4   2.8    2.3
+ 25 µg/mL 0   48.6   3.2
+ 25 µg/mL 2   7.9    4.2
+ 25 µg/mL 4   0      0
+ 50 µg/mL 0   30.1   2.8
+ 50 µg/mL 2   14.8   1.4
+ 50 µg/mL 4   6      2.3
