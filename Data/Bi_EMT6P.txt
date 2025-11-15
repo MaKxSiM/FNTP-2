@@ -1,0 +1,41 @@
+#A Publication data <string>
+DOI: 10.1016/j.mtnano.2024.100508
+
+#A1 Comments <string>
+Clonogenic assay, the hydrodynamic size of NPs after incubation with PBS for 15 minutes are shown.
+
+#B Cell line  <string>
+EMT6/P
+
+#C Radiosensitizer type: NP material, size, coating, aux <sting, float, string, string>
+Bi 146 Pluronic NA
+
+#D Radiation type: particle type, energy spectrum <string, string>
+p BP
+
+#E Number of fractions <int>
+1
+
+#F_Nfr  Time of NP injection / time of irradiation / time of assay <int string(dd:mm:yн//hh:mm), string(...), string(...)>
+NA NA NA
+
+#G Table with survival fraction. Concentration: value, units <float, string>; bin center (Gy), bin content (%), uncertainty (%)  <float, float, float>
+  0 µg/mL 0    100   4.6
+  0 µg/mL 1.5  77    1.7
+  0 µg/mL 3    56.9  3.2
+
+  1 µg/mL 0    75.3  2.8
+  1 µg/mL 1.5  69.6  7.1
+  1 µg/mL 3    36.8  4.6
+ 
+ 10 µg/mL 0    66.1  4.6
+ 10 µg/mL 1.5  69.3  3.5
+ 10 µg/mL 3    35    2.1
+
+ 25 µg/mL 0    55.5  7.4
+ 25 µg/mL 1.5  52.7  1.4
+ 25 µg/mL 3    23.3  3.2
+
+ 50 µg/mL 0    17.3  3.5
+ 50 µg/mL 1.5   9.9  1.4
+ 50 µg/mL 3     3.2  2.1
