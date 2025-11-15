@@ -2,7 +2,7 @@
 DOI: 10.3390/nano13152167
 
 #A1 Comments <string>
-Clonogenic assay, the hydrodynamic size of NPs after incubation with PBS for 5 minutes are shown. The cells preserved 44.7 and 59.3 µg/mL of boron after incubation with 80 and 100 ppm of B NPs, respectively.
+Clonogenic assay, the hydrodynamic size of NPs after incubation with PBS for 5 minutes is shown. The cells preserved 44.7 and 59.3 µg/mL of boron after incubation with 80 and 100 ppm of B NPs, respectively.
 
 #B Cell line  <string>
 MNNG/Hos
