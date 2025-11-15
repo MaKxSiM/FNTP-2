@@ -1,0 +1,37 @@
+#A Publication data <string>
+DOI: 10.31857/S2686738924030104
+
+#A1 Comments <string>
+Clonogenic assay, the  size of the initial NPs (SEM) are shown.
+
+#B Cell line  <string>
+EMT6/P
+
+#C Radiosensitizer type: NP material, size, coating, aux <sting, float, string, string>
+Au 6 PEG NA
+
+#D Radiation type: particle type, energy spectrum <string, string>
+p SOBP
+
+#E Number of fractions <int>
+1
+
+#F_Nfr  Time of NP injection / time of irradiation / time of assay <int string(dd:mm:yн//hh:mm), string(...), string(...)>
+NA NA NA
+
+#G Table with survival fraction. Concentration: value, units <float, string>; bin center (Gy), bin content (%), uncertainty (%)  <float, float, float>
+  0 µg/mL 0   100   7.8
+  0 µg/mL 2   70    4.4
+  0 µg/mL 4   43.6  7.2
+
+ 10 µg/mL 0   106.6 4.4
+ 10 µg/mL 2   61.2  6.6
+ 10 µg/mL 4   61.4  6.6
+ 
+ 25 µg/mL 0   106.2 6
+ 25 µg/mL 2   88.8  3.8
+ 25 µg/mL 4   0     0
+
+ 50 µg/mL 0   100.8 3.8
+ 50 µg/mL 2   21.4  9.6
+ 50 µg/mL 4   0     0
