@@ -8,7 +8,7 @@ Clonogenic assay, the  size of the initial NPs (SEM) are shown.
 EMT6/P
 
 #C Radiosensitizer type: NP material, size, coating, aux <sting, float, string, string>
-Au 6 PEG NA
+Au 6 SH-PEG-NH2 NA
 
 #D Radiation type: particle type, energy spectrum <string, string>
 p SOBP
