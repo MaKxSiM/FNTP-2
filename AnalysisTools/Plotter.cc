@@ -1,10 +1,4 @@
 {
-/*
-  #include <iostream>
-  #include <vector>
-  #include <algorithm> // Required for std::sort
-  #include <set>
-*/
   gROOT->Reset();
   gStyle->SetOptStat(0);
   gStyle->SetOptTitle(0);
@@ -29,21 +23,44 @@
     float Uncertainty;
   };
 
+  struct NanoParicleInfoTemplate {
+    string Material;
+    float Size;
+    string Coating;
+    string Vector;
+  };
+
+  struct FiledInfoTemplate {
+    string Type;
+    string Spectrum;
+  };
+
+
   vector<double> Concentration;
   vector<DataPointTemplate> vDataPoint;
   int NbinsX, NbinsY;
   float Dose_min, Dose_max, C_min, C_max;
+  string CellLine;
+  NanoParicleInfoTemplate NanoParicleInfo;
+  FiledInfoTemplate  RadiationFieldInfo;
+
   //== transient variables to ses assess histrgem limits
    vector<float> vDoses;
    vector<float> vConcentrations;
 
-  std::ifstream inputFile("/home/maxim/Programs/MedPhysProjects/FNTP-2/Init/FNTP-2/Data/LaB6_EMT6P_Editted.txt");
+  //std::ifstream inputFile("/home/maxim/Programs/MedPhysProjects/FNTP-2/Init/FNTP-2/Data/LaB6_EMT6P_Editted.txt");
+  std::ifstream inputFile("/home/maxim/Programs/MedPhysProjects/FNTP-2/Iteration2/FNTP-2/Data/Au-DARPin_BT-474.txt");
+
     if (!inputFile.is_open()) {
       cerr << "Error: Could not open the file!" << endl;
     }
 
     string line;
     bool fDataClonAssay =false;
+    bool fCellLine=false;
+    bool fNanoParticle=false;
+    bool fRadiationField=false;
+
     while (getline(inputFile, line)) {
         stringstream ss_(line);
         string item_;
@@ -54,7 +71,7 @@
 
         if(fDataClonAssay){
             DataPointTemplate DataPoint_;
-            cout<<"item size:  " <<Row_.size()<<"     items: "<<Row_[0]<<"  "<< Row_[1]<<"  " <<Row_[2]<<"  " <<Row_[3]<<"  " <<Row_[4]<<endl;
+          //  cout<<"item size:  " <<Row_.size()<<"     items: "<<Row_[0]<<"  "<< Row_[1]<<"  " <<Row_[2]<<"  " <<Row_[3]<<"  " <<Row_[4]<<endl;
             DataPoint_.Concentration = stof(Row_[0]);
             DataPoint_.Units = Row_[1];
             DataPoint_.Dose = stof(Row_[2]);
@@ -66,6 +83,36 @@
             vConcentrations.push_back(DataPoint_.Concentration);
         }
         if(line[1] == 'G') fDataClonAssay = true; //cout << line << endl;
+
+//======= reading  cell line info ==============================================
+        if(fCellLine){
+          CellLine = Row_[0];
+          fCellLine = false;
+        }
+        if(line[1] == 'B') fCellLine = true; //cout << line << endl;
+//------------------------------------------------------------------------------
+
+//======= reading  nanoparticle info ===========================================
+        if(fNanoParticle){
+          //cout<<"!!!!!!!!!!!!!!!!:  "<<Row_[0]<<endl;
+          NanoParicleInfo.Material = Row_[0];
+          NanoParicleInfo.Size = stof(Row_[1]);
+          NanoParicleInfo.Coating  = Row_[2];
+          NanoParicleInfo.Vector  = Row_[3];
+          fNanoParticle = false;
+        }
+        if(line[1] == 'C') fNanoParticle = true; //cout << line << endl;
+//------------------------------------------------------------------------------
+
+//======= reading  rations field info  =========================================
+        if(fRadiationField){
+          RadiationFieldInfo.Type = Row_[0];
+          RadiationFieldInfo.Spectrum  = Row_[1];
+          fRadiationField = false;
+        }
+        if(line[1] == 'D')  fRadiationField = true; //cout << line << endl;
+//------------------------------------------------------------------------------
+
 
     }
       inputFile.close();
@@ -145,7 +192,7 @@ LQ_func->SetLineWidth(4);
  gr->GetXaxis()->CenterTitle();
  gr->GetYaxis()->CenterTitle();
  gr->GetXaxis()->SetTitle("Dose (Gy)");
- gr->GetYaxis()->SetTitle("Cell viability (%)");
+ gr->GetYaxis()->SetTitle("Cell Viability (%)");
  gr->GetXaxis()->SetRangeUser(Dose_min - 0.5, Dose_max + 0.5);
  gr->GetYaxis()->SetTitleSize(0.045);
  gr->GetYaxis()->SetTitleOffset(1.0);
@@ -165,19 +212,59 @@ LQ_func->SetLineWidth(4);
  LQ_beta = LQ_func->GetParameter(2);
 
 char LQ_legend[50];
-char Condtions[50];
+char ConcentrationLegend[50];
+char CellLineLegend[50];
+char NanoParticleLegend[50];
+char RadiatioFieldLegend[50];
 
 sprintf(LQ_legend, " LQ fit: #alpha = %4.3f, #beta = %4.3f", LQ_alpha, LQ_beta);
-sprintf(Condtions, " Concetration: %4.1f mg/L", vConcentrations[CS-1]);
+sprintf(ConcentrationLegend, "Concetration: %4.1f mg/L", vConcentrations[CS-1]);
+sprintf(CellLineLegend, "Cell line: %s", CellLine.c_str());
+sprintf(NanoParticleLegend, "Nanoparticle: %s+%s, D = %3.1f nm", NanoParicleInfo.Material.c_str(), NanoParicleInfo.Coating.c_str(), NanoParicleInfo.Size);
+sprintf(RadiatioFieldLegend, "Radiation type: %s, %s", RadiationFieldInfo.Type.c_str(), RadiationFieldInfo.Spectrum.c_str());
 
- TLegend* legend1 = new TLegend(0.50, 0.60, 0.85, 0.80);//
- legend1->SetTextSize(0.032);
- legend1->SetTextFont(42);
- legend1->SetHeader(Condtions,"C");
- legend1->AddEntry(gr, "Data", "p");
- legend1->AddEntry(LQ_func, LQ_legend, "l");
- legend1->SetFillColor(kWhite);
- legend1->SetLineColor(kWhite);
- legend1->Draw();
+TLegend* legend1 = new TLegend(0.48, 0.50, 0.80, 0.63);//
+legend1->SetTextSize(0.032);
+legend1->SetTextFont(42);
+//legend1->SetHeader(ConcentrationLegend);
+legend1->AddEntry(gr, "Data", "p");
+legend1->AddEntry(LQ_func, LQ_legend, "l");
+legend1->SetFillColor(kWhite);
+legend1->SetLineColor(kWhite);
+legend1->Draw();
+
+TLegend* legend2 = new TLegend(0.45, 0.8, 0.80, 0.85);//
+legend2->SetTextSize(0.032);
+legend2->SetTextFont(42);
+legend2->SetHeader(CellLineLegend);
+legend2->SetFillColor(kWhite);
+legend2->SetLineColor(kWhite);
+legend2->Draw();
+
+TLegend* legend3 = new TLegend(0.45, 0.75, 0.80, 0.80);//
+legend3->SetTextSize(0.032);
+legend3->SetTextFont(42);
+legend3->SetHeader(NanoParticleLegend);
+legend3->SetFillColor(kWhite);
+legend3->SetLineColor(kWhite);
+legend3->Draw();
+
+TLegend* legend4 = new TLegend(0.45, 0.70, 0.80, 0.75);//
+legend4->SetTextSize(0.032);
+legend4->SetTextFont(42);
+legend4->SetHeader(ConcentrationLegend);
+legend4->SetFillColor(kWhite);
+legend4->SetLineColor(kWhite);
+legend4->Draw();
+
+TLegend* legend5 = new TLegend(0.45, 0.65, 0.80, 0.70);//
+legend5->SetTextSize(0.032);
+legend5->SetTextFont(42);
+legend5->SetHeader(RadiatioFieldLegend);
+legend5->SetFillColor(kWhite);
+legend5->SetLineColor(kWhite);
+legend5->Draw();
+
+
 
 }
