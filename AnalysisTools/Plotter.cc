@@ -8,7 +8,7 @@
 
   //gStyle->SetPadLeftMargin(0.16);
   //gStyle->SetPadRightMargin(0.03);
-  //gStyle->SetPadTopMargin(0.04);//!!
+  gStyle->SetPadTopMargin(0.04);//!!
   //gStyle->SetPadBottomMargin(0.12);//!!
   gStyle->SetPadTickX(1);
   gStyle->SetPadTickY(1);
@@ -49,7 +49,13 @@
    vector<float> vConcentrations;
 
   //std::ifstream inputFile("/home/maxim/Programs/MedPhysProjects/FNTP-2/Init/FNTP-2/Data/LaB6_EMT6P_Editted.txt");
-  std::ifstream inputFile("/home/maxim/Programs/MedPhysProjects/FNTP-2/Iteration2/FNTP-2/Data/Au-DARPin_BT-474.txt");
+  //std::ifstream inputFile("/home/maxim/Programs/MedPhysProjects/FNTP-2/Iteration2/FNTP-2/Data/Au-DARPin_BT-474.txt");
+  //std::ifstream inputFile("/home/maxim/Programs/MedPhysProjects/FNTP-2/Iteration2/FNTP-2/Data/Au_SK-OV-3.txt");
+  //std::ifstream inputFile("/home/maxim/Programs/MedPhysProjects/FNTP-2/Iteration2/FNTP-2/Data/HfN_BT-474.txt");
+  std::ifstream inputFile("/home/maxim/Programs/MedPhysProjects/FNTP-2/Iteration2/FNTP-2/Data/Au_EMT6P.txt");
+  //std::ifstream inputFile("/home/maxim/Programs/MedPhysProjects/FNTP-2/Iteration2/FNTP-2/Data/Bi_EMT6P.txt");
+  
+
 
     if (!inputFile.is_open()) {
       cerr << "Error: Could not open the file!" << endl;
@@ -76,7 +82,7 @@
             DataPoint_.Units = Row_[1];
             DataPoint_.Dose = stof(Row_[2]);
             DataPoint_.SurvivedFraction = stof(Row_[3]);
-            DataPoint_.Uncertainty = stof(Row_[4]);
+            DataPoint_.Uncertainty = stof(Row_[4])+2.0; //+2% should give some regularizationo for the fitting procedure
 
             vDataPoint.push_back(DataPoint_);
             vDoses.push_back(DataPoint_.Dose);
@@ -143,7 +149,10 @@ C_max = vConcentrations[NbinsY-1];
 TH2Poly *hp = new TH2Poly();
 for(int i = 0; i < NbinsX; i++ ){
   for(int j = 0; j < NbinsY; j++ ){
-      hp->AddBin(vDoses[i]-0.9,vConcentrations[j]-4.9, vDoses[i]+0.9,vConcentrations[j]+4.9);
+      hp->AddBin(vDoses[i]-0.8,vConcentrations[j]-4.5, vDoses[i]+0.8,vConcentrations[j]+4.5);
+    //if(j==0)hp->AddBin(vDoses[i]-0.5,vConcentrations[j]-1.0, vDoses[i]+0.4,vConcentrations[j]+1.0);//for bismuth
+    //if(j==1)hp->AddBin(vDoses[i]-0.5,vConcentrations[j]-0.8, vDoses[i]+0.4,vConcentrations[j]+0.8);//for bismuth
+    //if(j>1)hp->AddBin(vDoses[i]-0.5,vConcentrations[j]-4.0, vDoses[i]+0.4,vConcentrations[j]+4.0);//for bismuth
   }
 }
 
@@ -154,8 +163,16 @@ for(int j = 0; j < vDataPoint.size(); j++ ){
 }
 
 TCanvas* c1 = new TCanvas("c1", "c1", 960, 720);
+c1->GetPad(0)->SetRightMargin(0.12);
+c1->GetPad(0)->SetLeftMargin(0.12);
+c1->GetPad(0)->SetBottomMargin(0.12);
   hp->GetXaxis()->CenterTitle();
   hp->GetYaxis()->CenterTitle();
+  hp->GetXaxis()->SetTitleSize(0.05);
+  hp->GetYaxis()->SetTitleSize(0.05);
+  hp->GetXaxis()->SetLabelSize(0.05);
+  hp->GetYaxis()->SetLabelSize(0.05);
+  hp->GetZaxis()->SetLabelSize(0.05);
   hp->GetXaxis()->SetTitle("Dose (Gy)");
   hp->GetYaxis()->SetTitle("Concentration (mg/L)");
   hp->Draw("colz");
@@ -163,8 +180,10 @@ TCanvas* c1 = new TCanvas("c1", "c1", 960, 720);
 
 // 1D slice at fixed concentration with  LQ fit
 TCanvas* c2 = new TCanvas("c2", "c2", 960, 720);
+c2->GetPad(0)->SetRightMargin(0.04);
 
-int CS = 1; //Concentrtion  sclice, numbering sterts from 1. Dev: It should be taken from the file with paprameters in future devs.
+
+int CS = 5; //Concentrtion  sclice, numbering sterts from 1. Dev: It should be taken from the file with paprameters in future devs.
 
 // ======  filling vectors for 1D TGraph =======================================
 vector<float> vDose_err; // vetor with error of doses
@@ -184,6 +203,10 @@ LQ_func->SetParameter(0, 100);
 LQ_func->SetParameter(1, 0.3);
 LQ_func->SetParameter(1, 0.03);
 LQ_func->SetLineWidth(4);
+
+LQ_func->SetParLimits(1, 0.01, 5.0);
+LQ_func->SetParLimits(2, 0.001, 5.0);
+
 //------------------------------------------------------------------------------
 
  TGraphErrors* gr =  new TGraphErrors(NbinsX, &vDoses[0], &SF[0], &vDose_err[0], &SF_err[0]);
@@ -193,6 +216,7 @@ LQ_func->SetLineWidth(4);
  gr->GetYaxis()->CenterTitle();
  gr->GetXaxis()->SetTitle("Dose (Gy)");
  gr->GetYaxis()->SetTitle("Cell Viability (%)");
+ gr->GetYaxis()->SetRangeUser(0, 160);
  gr->GetXaxis()->SetRangeUser(Dose_min - 0.5, Dose_max + 0.5);
  gr->GetYaxis()->SetTitleSize(0.045);
  gr->GetYaxis()->SetTitleOffset(1.0);
@@ -206,6 +230,15 @@ LQ_func->SetLineWidth(4);
  gr->Draw("AP");
 
  gr->Fit(LQ_func);
+
+
+// === forcing  alpha to be greater than beta for the ill fits of  the ill data  ==
+ if(LQ_func->GetParameter(1)< LQ_func->GetParameter(2)){
+   LQ_func->SetParLimits(1, LQ_func->GetParameter(2), 5.0);
+   gr->Fit(LQ_func);
+ }
+//------------------------------------------------------------------------------
+
 
  double  LQ_alpha, LQ_beta;
  LQ_alpha = LQ_func->GetParameter(1);
@@ -223,7 +256,7 @@ sprintf(CellLineLegend, "Cell line: %s", CellLine.c_str());
 sprintf(NanoParticleLegend, "Nanoparticle: %s+%s, D = %3.1f nm", NanoParicleInfo.Material.c_str(), NanoParicleInfo.Coating.c_str(), NanoParicleInfo.Size);
 sprintf(RadiatioFieldLegend, "Radiation type: %s, %s", RadiationFieldInfo.Type.c_str(), RadiationFieldInfo.Spectrum.c_str());
 
-TLegend* legend1 = new TLegend(0.48, 0.50, 0.80, 0.63);//
+TLegend* legend1 = new TLegend(0.48, 0.59, 0.80, 0.70);//
 legend1->SetTextSize(0.032);
 legend1->SetTextFont(42);
 //legend1->SetHeader(ConcentrationLegend);
@@ -233,7 +266,7 @@ legend1->SetFillColor(kWhite);
 legend1->SetLineColor(kWhite);
 legend1->Draw();
 
-TLegend* legend2 = new TLegend(0.45, 0.8, 0.80, 0.85);//
+TLegend* legend2 = new TLegend(0.45, 0.87, 0.80, 0.92);//
 legend2->SetTextSize(0.032);
 legend2->SetTextFont(42);
 legend2->SetHeader(CellLineLegend);
@@ -241,7 +274,7 @@ legend2->SetFillColor(kWhite);
 legend2->SetLineColor(kWhite);
 legend2->Draw();
 
-TLegend* legend3 = new TLegend(0.45, 0.75, 0.80, 0.80);//
+TLegend* legend3 = new TLegend(0.45, 0.82, 0.80, 0.87);//
 legend3->SetTextSize(0.032);
 legend3->SetTextFont(42);
 legend3->SetHeader(NanoParticleLegend);
@@ -249,7 +282,7 @@ legend3->SetFillColor(kWhite);
 legend3->SetLineColor(kWhite);
 legend3->Draw();
 
-TLegend* legend4 = new TLegend(0.45, 0.70, 0.80, 0.75);//
+TLegend* legend4 = new TLegend(0.45, 0.77, 0.80, 0.82);//
 legend4->SetTextSize(0.032);
 legend4->SetTextFont(42);
 legend4->SetHeader(ConcentrationLegend);
@@ -257,7 +290,7 @@ legend4->SetFillColor(kWhite);
 legend4->SetLineColor(kWhite);
 legend4->Draw();
 
-TLegend* legend5 = new TLegend(0.45, 0.65, 0.80, 0.70);//
+TLegend* legend5 = new TLegend(0.45, 0.72, 0.80, 0.77);//
 legend5->SetTextSize(0.032);
 legend5->SetTextFont(42);
 legend5->SetHeader(RadiatioFieldLegend);
