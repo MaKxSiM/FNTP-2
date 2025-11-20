@@ -1,0 +1,34 @@
+#A Publication data <string>
+Project Report 2024
+
+#A1 Comments <string>
+Clonogenic assay
+
+#B Cell line  <string>
+BT-474
+
+#C Radiosensitizer type: NP material, size, coating, aux <sting, float, string, string>
+Au * *
+
+#D Radiation type: particle type, energy spectrum <string, string>
+p BP
+
+#E Number of fractions <int>
+1
+
+#F_Nfr  Time of NP injection / time of irradiation / time of assay <int string(dd:mm:yн//hh:mm), string(...), string(...)>
+NA NA NA
+
+#G Table with survival fraction. Concentration: value, units <float, string>; bin center (Gy), bin content (%), uncertainty (%)  <float, float, float>
+  0 µg/mL 0   
+  0 µg/mL 2   
+  0 µg/mL 4   
+ 10 µg/mL 0   
+ 10 µg/mL 2   
+ 10 µg/mL 4   
+ 25 µg/mL 0   
+ 25 µg/mL 2   
+ 25 µg/mL 4   
+ 50 µg/mL 0   
+ 50 µg/mL 2   
+ 50 µg/mL 4   
