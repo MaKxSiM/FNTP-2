@@ -35,7 +35,6 @@
     string Spectrum;
   };
 
-
   vector<double> Concentration;
   vector<DataPointTemplate> vDataPoint;
   int NbinsX, NbinsY;
@@ -55,8 +54,6 @@
   std::ifstream inputFile("/home/maxim/Programs/MedPhysProjects/FNTP-2/Iteration2/FNTP-2/Data/Au_EMT6P.txt");
   //std::ifstream inputFile("/home/maxim/Programs/MedPhysProjects/FNTP-2/Iteration2/FNTP-2/Data/Bi_EMT6P.txt");
   
-
-
     if (!inputFile.is_open()) {
       cerr << "Error: Could not open the file!" << endl;
     }
