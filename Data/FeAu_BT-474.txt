@@ -2,7 +2,7 @@
 Project Report 2024
 
 #A1 Comments <string>
-Clonogenic assay
+Clonogenic assay,  NPs formed from large spherical iron-based cores with a size of about 75 nm, decorated with small spherical Au NPs with a size of about 8 nm (SEM)
 
 #B Cell line  <string>
 BT-474
